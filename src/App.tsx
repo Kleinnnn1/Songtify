@@ -1,15 +1,14 @@
-function App() {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-blue-600 mb-4">
-        Tailwind is Working
-      </h1>
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Callback from "./pages/Callback";
+import Home from "./pages/Home";
 
-      <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md">
-        Click Me
-      </button>
-    </div>
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/callback" element={<Callback />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
