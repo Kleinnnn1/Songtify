@@ -24,9 +24,13 @@ export function useSpotify() {
   };
 
   function extractPlaylistId(input: string): string | null {
-    const match = input.match(/playlist\/([a-zA-Z0-9]+)/);
+    const cleaned = input.split("?")[0];
+
+    const match = cleaned.match(/playlist\/([a-zA-Z0-9]+)/);
     if (match) return match[1];
-    if (/^[a-zA-Z0-9]+$/.test(input)) return input;
+
+    if (/^[a-zA-Z0-9]+$/.test(input.trim())) return input.trim();
+
     return null;
   }
 
@@ -77,12 +81,21 @@ export function useSpotify() {
       const res = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
         headers,
       });
-      if (!res.ok) throw new Error("Playlist not found or is private.");
-      const playlistData: SpotifyPlaylist = await res.json();
-      setPlaylist(playlistData);
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          data.error?.message ??
+            `Error ${res.status}: Could not fetch playlist.`,
+        );
+      }
+
+      setPlaylist(data);
 
       setProgress("Fetching tracks...");
       const tracks = await fetchAllTracks(playlistId);
+
+      if (tracks.length === 0)
+        throw new Error("Playlist is empty or has no playable tracks.");
 
       setProgress("Analyzing audio features...");
       const trackIds = tracks.map((t) => t.id);
@@ -104,6 +117,7 @@ export function useSpotify() {
       setProgress("");
     } catch (err: any) {
       setError(err.message ?? "Something went wrong.");
+      setProgress("");
     } finally {
       setLoading(false);
     }
