@@ -3,7 +3,6 @@ import type {
   CategorizedSong,
   CategoryGroup,
   SongCategory,
-  SpotifyTrack,
 } from "../types/spotify";
 
 export function categorizeSong(features: AudioFeatures): SongCategory {
