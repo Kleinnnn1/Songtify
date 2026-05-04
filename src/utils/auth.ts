@@ -66,14 +66,31 @@ export async function exchangeToken(code: string): Promise<string> {
 
   const data = await response.json();
   localStorage.setItem("access_token", data.access_token);
+  localStorage.setItem(
+    "token_expiry",
+    String(Date.now() + data.expires_in * 1000),
+  );
   return data.access_token;
 }
 
 export function getAccessToken(): string | null {
-  return localStorage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
+  const expiry = localStorage.getItem("token_expiry");
+
+  if (!token || !expiry) return null;
+
+  if (Date.now() > parseInt(expiry)) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token_expiry");
+    localStorage.removeItem("code_verifier");
+    return null;
+  }
+
+  return token;
 }
 
 export function logout(): void {
   localStorage.removeItem("access_token");
   localStorage.removeItem("code_verifier");
+  localStorage.removeItem("token_expiry");
 }
