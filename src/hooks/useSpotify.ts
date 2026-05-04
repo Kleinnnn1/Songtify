@@ -41,7 +41,7 @@ export function useSpotify() {
     try {
       const res = await fetch(`${BASE_URL}/me/playlists?limit=50`, { headers });
       const data = await res.json();
-      setUserPlaylists(data.items ?? []);
+      setUserPlaylists(data.items?.filter(Boolean) ?? []);
     } catch (err: any) {
       setError(err.message ?? "Failed to fetch playlists.");
     } finally {
@@ -56,8 +56,6 @@ export function useSpotify() {
     while (url) {
       const res = await fetch(url, { headers });
       const data = await res.json();
-
-      // ← add this
       console.log("fetchAllTracks response:", res.status, data);
 
       if (!res.ok) {

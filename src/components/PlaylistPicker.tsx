@@ -53,7 +53,7 @@ export default function PlaylistPicker({
               padding: "12px",
               cursor: "pointer",
               textAlign: "left",
-              transition: "border-color 0.2s, background 0.2s",
+              transition: "border-c olor 0.2s, background 0.2s",
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =
@@ -118,7 +118,7 @@ export default function PlaylistPicker({
                 fontSize: "11px",
               }}
             >
-              {p.tracks.total} songs
+              {p.tracks?.total ?? 0} songs
             </div>
           </button>
         ))}
