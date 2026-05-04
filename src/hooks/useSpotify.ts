@@ -41,9 +41,20 @@ export function useSpotify() {
     while (url) {
       const res = await fetch(url, { headers });
       const data = await res.json();
-      data.items.forEach((item: any) => {
-        if (item.track) tracks.push(item.track);
+
+      // ← add this
+      console.log("fetchAllTracks response:", res.status, data);
+
+      if (!res.ok) {
+        throw new Error(
+          data.error?.message ?? `Failed to fetch tracks (${res.status})`,
+        );
+      }
+
+      data.items?.forEach((item: any) => {
+        if (item?.track) tracks.push(item.track);
       });
+
       url = data.next;
     }
 
@@ -67,7 +78,8 @@ export function useSpotify() {
 
     return features;
   }
-
+  
+  console.log("Access token:", getAccessToken()?.substring(0, 20) + "...");
   async function analyzePlaylist(input: string) {
     setLoading(true);
     setError(null);
