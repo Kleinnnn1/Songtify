@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import type {
   CategoryGroup,
   CategorizedSong,
   SpotifyPlaylist,
 } from "../types/spotify";
-import PlaylistInput from "./PlaylistInput";
+import PlaylistPicker from "./PlaylistPicker";
 import CategoryGrid from "./CategoryGrid";
 import VibeChart from "./VibeChart";
 
@@ -14,7 +15,9 @@ interface Props {
   loading: boolean;
   error: string | null;
   progress: string;
+  userPlaylists: any[];
   onAnalyze: (input: string) => void;
+  onFetchPlaylists: () => void;
   onCreatePlaylists: (groups: CategoryGroup[]) => void;
   onLogout: () => void;
 }
@@ -26,10 +29,16 @@ export default function AppView({
   loading,
   error,
   progress,
+  userPlaylists,
   onAnalyze,
+  onFetchPlaylists,
   onCreatePlaylists,
   onLogout,
 }: Props) {
+  useEffect(() => {
+    onFetchPlaylists();
+  }, []);
+
   return (
     <div
       style={{
@@ -41,7 +50,14 @@ export default function AppView({
         gap: "40px",
       }}
     >
-      <PlaylistInput onAnalyze={onAnalyze} loading={loading} />
+      {/* Show picker if no playlist selected yet */}
+      {!playlist && (
+        <PlaylistPicker
+          playlists={userPlaylists}
+          onSelect={onAnalyze}
+          loading={loading}
+        />
+      )}
 
       {progress && (
         <p style={{ color: "#1DB954", fontSize: "13px", textAlign: "center" }}>
@@ -57,6 +73,22 @@ export default function AppView({
 
       {playlist && !loading && (
         <div style={{ textAlign: "center" }}>
+          {/* Back button */}
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "none",
+              border: "none",
+              color: "rgba(255,255,255,0.3)",
+              fontSize: "12px",
+              cursor: "pointer",
+              marginBottom: "12px",
+              display: "block",
+              margin: "0 auto 12px",
+            }}
+          >
+            ← Back to playlists
+          </button>
           <p style={{ color: "#fff", fontWeight: 600, fontSize: "18px" }}>
             {playlist.name}
           </p>

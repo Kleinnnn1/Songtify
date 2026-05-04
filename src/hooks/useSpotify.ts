@@ -18,6 +18,7 @@ export function useSpotify() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<string>("");
+  const [userPlaylists, setUserPlaylists] = useState<any[]>([]);
 
   const headers = {
     Authorization: `Bearer ${getAccessToken()}`,
@@ -32,6 +33,20 @@ export function useSpotify() {
     if (/^[a-zA-Z0-9]+$/.test(input.trim())) return input.trim();
 
     return null;
+  }
+
+  async function fetchUserPlaylists() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${BASE_URL}/me/playlists?limit=50`, { headers });
+      const data = await res.json();
+      setUserPlaylists(data.items ?? []);
+    } catch (err: any) {
+      setError(err.message ?? "Failed to fetch playlists.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function fetchAllTracks(playlistId: string): Promise<SpotifyTrack[]> {
@@ -78,7 +93,7 @@ export function useSpotify() {
 
     return features;
   }
-  
+
   console.log("Access token:", getAccessToken()?.substring(0, 20) + "...");
   async function analyzePlaylist(input: string) {
     setLoading(true);
@@ -188,6 +203,8 @@ export function useSpotify() {
     loading,
     error,
     progress,
+    userPlaylists,
+    fetchUserPlaylists,
     analyzePlaylist,
     createSortedPlaylists,
   };

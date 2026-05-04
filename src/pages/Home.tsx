@@ -11,6 +11,8 @@ export default function Home() {
   const {
     playlist,
     categorizedSongs,
+    userPlaylists,
+    fetchUserPlaylists,
     loading,
     error,
     progress,
@@ -34,7 +36,6 @@ export default function Home() {
         fontFamily: "inherit",
       }}
     >
-
       <div
         style={{
           position: "fixed",
@@ -120,6 +121,8 @@ export default function Home() {
             error={error}
             progress={progress}
             onAnalyze={analyzePlaylist}
+            userPlaylists={userPlaylists}
+            onFetchPlaylists={fetchUserPlaylists}
             onCreatePlaylists={createSortedPlaylists}
             onLogout={handleLogout}
           />
