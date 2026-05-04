@@ -44,7 +44,7 @@ export default function VibeChart({ groups }: Props) {
               color: "#fff",
               fontSize: "12px",
             }}
-            formatter={(value: number) => [`${value} songs`, ""]}
+            formatter={(value) => [`${value} songs`, ""]}
           />
           <Legend
             formatter={(value) => (
