@@ -7,10 +7,10 @@ export default function HeroSection({ onConnect }: Props) {
     <div style={{ alignSelf: "center" }}>
       <h1
         style={{
-          fontSize: "clamp(36px, 4.5vw, 56px)",
+          fontSize: "clamp(32px, 6vw, 56px)",
+          letterSpacing: "clamp(-1px, -0.05em, -2px)",
           fontWeight: 700,
           lineHeight: 1.08,
-          letterSpacing: "-2px",
           marginBottom: "16px",
         }}
       >

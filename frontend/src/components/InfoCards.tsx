@@ -14,7 +14,6 @@ const VIBES = [
 export default function InfoCards() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      {/* How it works */}
       <div
         style={{
           background: "rgba(255,255,255,0.04)",
@@ -56,9 +55,12 @@ export default function InfoCards() {
         ))}
       </div>
 
-      {/* Stats */}
       <div
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+          gap: "10px",
+        }}
       >
         <div
           style={{
@@ -127,7 +129,7 @@ export default function InfoCards() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
             gap: "8px",
           }}
         >

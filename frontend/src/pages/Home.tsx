@@ -93,16 +93,17 @@ export default function Home() {
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              padding: "40px 40px 80px",
+              alignItems: "flex-start", // align to top instead of center
+              padding: "clamp(24px, 5vw, 40px) clamp(16px, 5vw, 40px)",
               maxWidth: "1100px",
               margin: "0 auto",
+              boxSizing: "border-box",
             }}
           >
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
                 gap: "48px",
                 width: "100%",
                 alignItems: "start",

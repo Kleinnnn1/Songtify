@@ -10,7 +10,7 @@ export default function Navbar({ showButton, onConnect }: Props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "20px 40px",
+        padding: "20px clamp(16px, 5vw, 40px)",
         height: "72px",
       }}
     >
